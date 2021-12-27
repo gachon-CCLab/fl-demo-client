@@ -1,0 +1,76 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flclient-deployment
+spec:
+  selector:
+    matchLabels:
+      app: fl-client2
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: fl-client2
+    spec:
+      volumes:
+        - name: shared-train-data # 학습데이터 저장용
+          emptyDir: {}
+        - name: shared-model # 모델 저장용
+          emptyDir: {}
+      containers:
+          - name: fl-client
+            image: docker.io/hoo0681/airflowkubepodimage:0.1
+            resources:
+              limits:
+                memory: "5Gi"
+                cpu: "500m"
+                nvidia.com/gpu: 1
+            ports:
+              - containerPort: 8002
+            env:
+            - name: REPO_URL
+              value: "https://github.com/hoo0681/portoFLClient.git"
+            - name: GIT_TAG
+              value: "master"
+            volumeMounts:
+            - name: shared-train-data 
+              mountPath: /traindata #read
+            - name: shared-model
+              mountPath: /model #read/write
+
+          - name: client-manager
+            image: docker.io/hoo0681/gitclone_python:0.1
+            resources:
+              limits:
+                memory: "2Gi"
+                cpu: "500m"
+            ports:
+              - containerPort: 8080
+            env:
+            - name: REPO_URL
+              value: "https://github.com/hoo0681/flclientManager.git"
+            - name: GIT_TAG
+              value: "main"
+            volumeMounts:
+              - name: shared-model
+                mountPath: /model #write
+
+          - name: client-inference
+            image: docker.io/hoo0681/gitclone_python:0.1
+            resources:
+              limits:
+                memory: "5Gi"
+                cpu: "500m"
+            ports:
+              - containerPort: 8001
+            env:
+            - name: REPO_URL
+              value: "https://github.com/hoo0681/flclientInference.git"
+            - name: GIT_TAG
+              value: "main"
+            volumeMounts:
+              - name: shared-model
+                mountPath: /model # read
+              - name: shared-train-data
+                mountPath: /traindata # write
