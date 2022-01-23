@@ -33,6 +33,8 @@ spec:
               value: "https://github.com/hoo0681/portoFLClient.git"
             - name: GIT_TAG
               value: "master"
+            - name: GRPC_POLL_STRATEGY
+              value: "epoll1"
             volumeMounts:
             - name: shared-train-data 
               mountPath: /traindata #read
