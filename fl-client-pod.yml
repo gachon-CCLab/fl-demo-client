@@ -30,7 +30,7 @@ spec:
               - containerPort: 8002
             env:
             - name: REPO_URL
-              value: "https://github.com/hoo0681/portoFLClient.git"
+              value: "https://github.com/kumass2020/fl-proto-client.git"
             - name: GIT_TAG
               value: "master"
             - name: GRPC_POLL_STRATEGY
@@ -42,7 +42,7 @@ spec:
               mountPath: /model #read/write
 
           - name: client-manager
-            image: docker.io/hoo0681/gitclone_python:0.1
+            image: docker.io/kumass2020/fl-client-manager:1.0
             resources:
               limits:
                 memory: "2Gi"
@@ -51,7 +51,7 @@ spec:
               - containerPort: 8080
             env:
             - name: REPO_URL
-              value: "https://github.com/hoo0681/flclientManager.git"
+              value: "https://github.com/kumass2020/fl-client-manager.git"
             - name: GIT_TAG
               value: "main"
             volumeMounts:
@@ -59,7 +59,7 @@ spec:
                 mountPath: /model #write
 
           - name: client-inference
-            image: docker.io/hoo0681/gitclone_python:0.1
+            image: docker.io/kumass2020/fl-client-inference:0.1
             resources:
               limits:
                 memory: "5Gi"
@@ -68,7 +68,7 @@ spec:
               - containerPort: 8001
             env:
             - name: REPO_URL
-              value: "https://github.com/hoo0681/flclientInference.git"
+              value: "https://github.com/kumass2020/fl-client-inference.git"
             - name: GIT_TAG
               value: "main"
             volumeMounts:
