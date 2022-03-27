@@ -59,7 +59,7 @@ spec:
                 mountPath: /model #write
 
           - name: client-inference
-            image: docker.io/kumass2020/fl-client-inference:0.1
+            image: docker.io/kumass2020/fl-client-inference:1.0
             resources:
               limits:
                 memory: "5Gi"
