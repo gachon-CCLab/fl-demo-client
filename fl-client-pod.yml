@@ -20,7 +20,7 @@ spec:
           emptyDir: {}
       containers:
           - name: fl-client
-            image: docker.io/kumass2020/fl-proto-server:1.0
+            image: docker.io/hoo0681/airflowkubepodimage:0.1
             resources:
               limits:
                 memory: "5Gi"
