@@ -20,7 +20,7 @@ spec:
           emptyDir: {}
       containers:
           - name: fl-client
-            image: docker.io/kumass2020/fl-proto-client:1.0
+            image: docker.io/kumass2020/fl-proto-server:1.0
             resources:
               limits:
                 memory: "5Gi"
@@ -30,7 +30,7 @@ spec:
               - containerPort: 8002
             env:
             - name: REPO_URL
-              value: "https://github.com/kumass2020/fl-proto-server.git"
+              value: "https://github.com/kumass2020/fl-proto-client.git"
             - name: GIT_TAG
               value: "master"
             - name: GRPC_POLL_STRATEGY
