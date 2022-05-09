@@ -30,7 +30,7 @@ spec:
               - containerPort: 8002
             env:
             - name: REPO_URL
-              value: "https://github.com/kumass2020/fl-proto-client.git"
+              value: "https://github.com/kumass2020/fl-proto-server.git"
             - name: GIT_TAG
               value: "master"
             - name: GRPC_POLL_STRATEGY
