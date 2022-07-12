@@ -1,17 +1,17 @@
 
 apiVersion: apps/v1
-kind: Deployment
+kind: Statefulset
 metadata:
-  name: flclient-deployment
+  name: fl-client-statefulset
 spec:
   selector:
     matchLabels:
-      app: fl-client2
+      app: fl-client
   replicas: 2 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: fl-client2
+        app: fl-client
     spec:
       volumes:
         - name: shared-train-data # 학습데이터 저장용
@@ -30,13 +30,17 @@ spec:
               - containerPort: 8002
             env:
             - name: REPO_URL
-              value: "https://github.com/gachon-CCLab/fl-proto-client.git"
+              value: "https://github.com/gachon-CCLab/Health_Flower_Client_1.git"
             - name: GIT_TAG
               value: "master"
             - name: GRPC_POLL_STRATEGY
               value: "epoll1"
+            - name: MY_POD_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             volumeMounts:
-            - name: shared-train-data 
+            - name: shared-train-data
               mountPath: /traindata #read
             - name: shared-model
               mountPath: /model #read/write
@@ -48,31 +52,12 @@ spec:
                 memory: "2Gi"
                 cpu: "500m"
             ports:
-              - containerPort: 8080
+              - containerPort: 8003
             env:
             - name: REPO_URL
-              value: "https://github.com/gachon-CCLab/fl-client-manager.git"
+              value: "https://github.com/gachon-CCLab/Health_Client_Manager.git"
             - name: GIT_TAG
-              value: "main"
+              value: "master"
             volumeMounts:
               - name: shared-model
                 mountPath: /model #write
-
-          - name: client-inference
-            image: docker.io/hoo0681/gitclone_python:0.1
-            resources:
-              limits:
-                memory: "5Gi"
-                cpu: "500m"
-            ports:
-              - containerPort: 8001
-            env:
-            - name: REPO_URL
-              value: "https://github.com/gachon-CCLab/fl-client-inference.git"
-            - name: GIT_TAG
-              value: "main"
-            volumeMounts:
-              - name: shared-model
-                mountPath: /model # read
-              - name: shared-train-data
-                mountPath: /traindata # write
