@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: fl-client-statefulset
 spec:
+  servicdName: "fl-client"
   selector:
     matchLabels:
       app: fl-client
