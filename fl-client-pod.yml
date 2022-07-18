@@ -1,5 +1,5 @@
-
-kind: Statefulset
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: fl-client-statefulset
 spec:
