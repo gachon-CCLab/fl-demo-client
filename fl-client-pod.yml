@@ -30,7 +30,7 @@ spec:
               - containerPort: 8002
             env:
             - name: REPO_URL
-              value: "https://github.com/gachon-CCLab/Health_Flower_Client_1.git"
+              value: "https://github.com/gachon-CCLab/Health_Flower_Client_3.git"
             - name: GIT_TAG
               value: "master"
             - name: GRPC_POLL_STRATEGY
